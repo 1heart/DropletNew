@@ -4,15 +4,30 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.Toast;
 //ASLDKJFALKSDJFLAKJSDFLKAJLKSDJFLAKSJ*/
 
 public class MainActivity extends ActionBarActivity {
+    Button locationButton;
+    LocationGetter locationGet;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        locationGet = new LocationGetter(MainActivity.this);
         setContentView(R.layout.activity_main);
-        LocationGetter appLocationManager = new LocationGetter(MainActivity.this);
+        locationButton = (Button) findViewById(R.id.locationGetBtn);
+        locationButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                double latitude = locationGet.getLatitude();
+                double longitude = locationGet.getLongitude();
+                Toast.makeText(getApplicationContext(), "Your Location is - \nLat: " + latitude + "\nLong: " + longitude, Toast.LENGTH_LONG).show();
+            }
+        });
+
     }
 
 
