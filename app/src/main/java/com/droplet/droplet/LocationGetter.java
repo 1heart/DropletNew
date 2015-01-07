@@ -36,6 +36,7 @@ public class LocationGetter implements LocationListener {
     public void onLocationChanged(Location location) {
         longitude = location.getLongitude();
         latitude = location.getLatitude();
+        //asdf
     }
 
     @Override
