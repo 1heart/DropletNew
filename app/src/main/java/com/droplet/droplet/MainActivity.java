@@ -61,26 +61,25 @@ public class MainActivity extends ActionBarActivity {
                 //Toast.makeText(getApplicationContext(), "Your Location is - \nLat: " + latitude + "\nLong: " + longitude, Toast.LENGTH_LONG).show();
                 Droplet drop = new Droplet(longitude, latitude, "Edward", "ayy lmao");
                 JSONObject dropJSON = new JSONObject();
-//                try {
-//                    dropJSON.put("longitude", drop.getLongitude());
-//                    dropJSON.put("latitude", drop.getLatitude());
-//                    dropJSON.put("score", drop.getScore());
-//                    dropJSON.put("user", drop.getUser());
-//                    dropJSON.put("message", drop.getMessage());
-//                    Toast.makeText(getApplicationContext(), "JSON success!", Toast.Length_LONG).show();
-//                } catch (JSONException e) {
-//                    e.printStackTrace();
-//                }
                 try {
-
-                    dropJSON.put("text", "WHAAAA");
-                    dropJSON.put("title", "WHOO");
-
-
+                    dropJSON.put("user", drop.getUser());
+                    dropJSON.put("text", drop.getMessage());
+                    dropJSON.put("lat", drop.getLatitude());
+                    dropJSON.put("longi", drop.getLongitude());
+                    dropJSON.put("score", drop.getScore());
+                    Toast.makeText(getApplicationContext(), "boop", Toast.LENGTH_LONG).show();
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-HttpRequestTask newRequest = new HttpRequestTask();
+//                try {
+//
+//                    dropJSON.put("text", "testestest");
+//                    dropJSON.put("title", "TEST TtestestesttestestesttestestestITLE");
+//
+//                } catch (JSONException e) {
+//                    e.printStackTrace();
+//                }
+                HttpRequestTask newRequest = new HttpRequestTask();
                 newRequest.execute(dropJSON);
 //-----------------------------------------------
 
@@ -134,15 +133,16 @@ HttpRequestTask newRequest = new HttpRequestTask();
                 HttpConnectionParams.setSoTimeout(httpParams, TIMEOUT_MILLISEC);
                 HttpClient client = new DefaultHttpClient(httpParams);
 
-                HttpPost request = new HttpPost("https://sheltered-chamber-7333.herokuapp.com/data");
+                HttpPost request = new HttpPost("https://droplet-server.herokuapp.com/post");
                 try {
                     Log.w("myApp", request.getMethod());
 
                     JSONObject jsonobj;
                     jsonobj = jsonobjarr[0];
-                    request.setEntity(new ByteArrayEntity(
+                    StringEntity jsonStringEntity = new StringEntity(jsonobj.toString());
+                    jsonStringEntity.setContentType("application/json");
+                    request.setEntity(jsonStringEntity);
 
-                    jsonobj.toString().getBytes("UTF8")));
                     try {
                         HttpResponse response = client.execute(request);
                         Log.d("myapp", "response " + EntityUtils.toString(response.getEntity()));
